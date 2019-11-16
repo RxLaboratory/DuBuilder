@@ -22,6 +22,7 @@ void Scanner::setRecursive(bool r)
 void Scanner::run()
 {
     if ( scan(script) ) emit finished(script);
+    else emit finished(nullptr);
 }
 
 bool Scanner::scan(Script *s)
@@ -56,7 +57,6 @@ bool Scanner::scan(Script *s)
     //get includes
     int lineNumber = 0;
     QRegularExpression reInclude("^(?!.*\\/\\/)(?!.*\\/\\*).*#include +([\"']?)([^\"'\\r\\n\\t]+)\\1 *;?$");
-    qDebug() << reInclude.pattern() ;
     QRegularExpression reIncludePath("^(?!.*\\/\\/)(?!.*\\/\\*).*#includepath +([\"']?)([^\"'\\r\\n\\t]+)\\1 *;?$");
 
     bool comment = false;
@@ -78,7 +78,6 @@ bool Scanner::scan(Script *s)
         {
             currentId++;
             QString name = matchInclude.captured(2);
-            qDebug() << "=== MATCH ===" << name ;
             QString path = checkIncludePath(name,includePaths,s);
             Script *includedScript = new Script(name,path,lineNumber);
             includedScript->setId(currentId);

@@ -11,8 +11,8 @@ class Script : public QObject
 {
 public:
     Script(QObject *parent = 0);
-    Script(QString n, QString path,int l = -1,QObject *parent = 0);
-    Script(QString fileName, int l = -1,QObject *parent = 0);
+    Script(QString n, QString path,int l = -1,QObject *parent = nullptr);
+    Script(QString fileName, int l = -1,QObject *parent = nullptr);
     ~Script();
     void setFileName(QString fileName);
     void setName(QString n);

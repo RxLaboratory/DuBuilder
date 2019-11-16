@@ -29,6 +29,7 @@ private slots:
     void on_actionRe_scan_script_triggered();
     void on_treeWidget_itemDoubleClicked(QTreeWidgetItem *item, int column);
     void on_actionBuild_triggered();
+    void removeCurrentIncludeItems();
 
     //UI
     void maximize();
@@ -70,6 +71,8 @@ private:
 
     void mapEvents();
     bool updateScript(Script *containingScript, Script *newScript);
+    void removeInclude(Script *containingScript, int scriptId);
+    void removeInclude(Script *containingScript, Script *includeScript);
     QTreeWidgetItem *createIncludeItem(Script *script);
 
     //UI

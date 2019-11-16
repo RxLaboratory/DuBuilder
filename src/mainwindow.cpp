@@ -37,6 +37,9 @@ MainWindow::MainWindow(QWidget *parent) :
     //hide tree when nothing is opened
     treeWidget->hide();
 
+    //add tree shortcuts
+    treeWidget->installEventFilter(this);
+
     //initilization
     scanner = new Scanner();
     builder = new Builder();
@@ -123,6 +126,20 @@ void MainWindow::on_actionBuild_triggered()
     builder->start();
 }
 
+void MainWindow::removeCurrentIncludeItems()
+{
+    QList<QTreeWidgetItem*> selectedItems = treeWidget->selectedItems();
+    for (int i = 0; i < selectedItems.count(); i++)
+    {
+        QTreeWidgetItem *item = selectedItems[i];
+
+        removeInclude(currentScript, item->data(0,Qt::UserRole).toInt());
+
+        item->setText(3, "Removed");
+        item->setIcon(0,QIcon(":/icons/warning"));
+    }
+}
+
 // OTHER SLOTS
 
 void MainWindow::scanned(Script *script)
@@ -131,7 +148,7 @@ void MainWindow::scanned(Script *script)
     qDebug() << "Got new script ===== " + script->name();
 #endif
 
-    if (scanningItem == nullptr)
+    if (scanningItem == nullptr && script != nullptr)
     {
         delete currentScript;
         currentScript = script;
@@ -151,33 +168,40 @@ void MainWindow::scanned(Script *script)
         actionRe_scan_script->setEnabled(true);
         actionBuild->setEnabled(true);
         actionCollect_Files->setEnabled(true);
-
-        setWaiting(false);
     }
     else
     {
-        //update display of item
-        scanningItem->setText(3,script->file()->fileName());
-        scanningItem->setIcon(0,QIcon(":/icons/ok"));
-        //remove old childs
-        QList<QTreeWidgetItem *> items = scanningItem->takeChildren();
-        while(items.count() > 0)
+        if (script == nullptr)
         {
-            QTreeWidgetItem *item = items.takeAt(0);
-            delete item;
+            //update display
+            scanningItem->setText(3,"Removed");
+            scanningItem->setIcon(0,QIcon(":/icons/warning"));
         }
-        //update includes list of currentScript
-        script->setId(scanningItem->data(0,Qt::UserRole).toInt());
-        script->setLine(scanningItem->text(1).toInt());
-
-        updateScript(currentScript,script);
-
-        foreach(Script *s,script->includes())
+        else
         {
-            scanningItem->addChild(createIncludeItem(s));
+            //update display of item
+            scanningItem->setText(3,script->file()->fileName());
+            scanningItem->setIcon(0,QIcon(":/icons/ok"));
+            //remove old childs
+            QList<QTreeWidgetItem *> items = scanningItem->takeChildren();
+            while(items.count() > 0)
+            {
+                QTreeWidgetItem *item = items.takeAt(0);
+                delete item;
+            }
+            //update includes list of currentScript
+            script->setId(scanningItem->data(0,Qt::UserRole).toInt());
+            script->setLine(scanningItem->text(1).toInt());
+
+            updateScript(currentScript,script);
+
+            foreach(Script *s,script->includes())
+            {
+                scanningItem->addChild(createIncludeItem(s));
+            }
         }
-        setWaiting(false);
     }
+    setWaiting(false);
 
 }
 
@@ -250,6 +274,31 @@ bool MainWindow::updateScript(Script *containingScript, Script *newScript)
     return false;
 }
 
+void MainWindow::removeInclude(Script *containingScript, int scriptId)
+{
+    qDebug() << "removing script " + QString::number(scriptId);
+    for( int i = containingScript->includes().count()-1 ; i >= 0 ; i--)
+    {
+        Script *s = containingScript->includes().at(i);
+        if (s == nullptr) continue;
+        if (s->id() == scriptId)
+        {
+            Script *include = containingScript->takeInclude(i);
+            qDebug() << "removed script " + include->name();
+            delete include;
+        }
+        else
+        {
+            removeInclude(s, scriptId);
+        }
+    }
+}
+
+void MainWindow::removeInclude(Script *containingScript, Script *includeScript)
+{
+    removeInclude(containingScript, includeScript->id());
+}
+
 // UI
 
 void MainWindow::setWaiting(bool wait)
@@ -294,7 +343,7 @@ bool MainWindow::eventFilter(QObject *obj, QEvent *event)
 {
   if (event->type() == QEvent::MouseButtonPress)
   {
-      QMouseEvent *mouseEvent = (QMouseEvent*)event;
+      QMouseEvent *mouseEvent = static_cast<QMouseEvent*>(event);
       if (mouseEvent->button() == Qt::LeftButton)
       {
         toolBarClicked = true;
@@ -305,7 +354,7 @@ bool MainWindow::eventFilter(QObject *obj, QEvent *event)
   }
   else if (event->type() == QEvent::MouseMove)
   {
-    QMouseEvent *mouseEvent = (QMouseEvent*)event;
+    QMouseEvent *mouseEvent = static_cast<QMouseEvent*>(event);
     if (mouseEvent->buttons() & Qt::LeftButton && toolBarClicked)
     {
         if (this->isMaximized()) this->showNormal();
@@ -327,9 +376,15 @@ bool MainWindow::eventFilter(QObject *obj, QEvent *event)
       return true;
   }
 #endif
-  else
+  else if ( event->type() == QEvent::KeyPress )
   {
-      // standard event processing
-      return QObject::eventFilter(obj, event);
+      QKeyEvent * keyEvent = static_cast<QKeyEvent *>(event);
+      if( keyEvent->key() == Qt::Key_Delete ){
+          removeCurrentIncludeItems();
+          return true;
+      }
   }
+
+  // standard event processing
+  return QObject::eventFilter(obj, event);
 }

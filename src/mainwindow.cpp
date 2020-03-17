@@ -123,6 +123,10 @@ void MainWindow::on_actionBuild_triggered()
 
     //build
     builder->setScript(currentScript);
+    builder->setIgnoreJSDoc(actionIgnoreJSDoc->isChecked());
+    builder->setIgnoreLineComments(actionIgnoreLineComments->isChecked());
+    builder->setIgnoreBlockComments(actionIgnoreBlockComments->isChecked());
+    builder->setKeepLicense(actionKeepLicense->isChecked());
     builder->start();
 }
 
@@ -242,6 +246,7 @@ QTreeWidgetItem *MainWindow::createIncludeItem(Script *script)
     if (script->exists()) scriptItem->setIcon(0,QIcon(":/icons/ok"));
     else scriptItem->setIcon(0,QIcon(":/icons/warning"));
     scriptItem->setData(0,Qt::UserRole,script->id());
+    scriptItem->setExpanded(true);
 
     //add children
     foreach(Script *s,script->includes())

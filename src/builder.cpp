@@ -4,7 +4,10 @@
 Builder::Builder()
 {
     script = nullptr;
-
+    _ignoreJSDoc = false;
+    _ignoreBlockComments = false;
+    _ignoreLineComments = false;
+    _keepLicense = true;
 }
 
 void Builder::setScript(Script *s)
@@ -53,6 +56,9 @@ QString Builder::build(Script *s)
     //go with data
     int lineNumber = 0;
     QList<Script*> includedScripts = s->includes();
+    bool inDoc = false;
+    bool inBlockComment = false;
+    bool inLicense = false;
     while (!scriptFile->atEnd())
     {
         QString line = scriptFile->readLine();
@@ -62,6 +68,10 @@ QString Builder::build(Script *s)
         //check if there's an include
         QRegularExpression reInclude("#include +(.+);?");
         QRegularExpression reIncludePath("#includepath +(.+);?");
+
+        bool startLicense = trimmedLine.startsWith("/*") && trimmedLine.indexOf("License") >= 0;
+        bool startDoc = trimmedLine.startsWith("/**");
+        bool startBlockComment = trimmedLine.startsWith("/*") && !startDoc && !startLicense;
 
         //if #include
         if (reInclude.match(trimmedLine).hasMatch())
@@ -92,6 +102,25 @@ QString Builder::build(Script *s)
             //TODO maybe optionnaly remove it
             //right now, do nothing
         }
+        //if documentation, let's remove it
+        else if ( startLicense && !_keepLicense ) inLicense = true;
+        else if ( startBlockComment && _ignoreJSDoc) inDoc = true;
+        else if ( startDoc && _ignoreBlockComments) inBlockComment = true;
+        else if (trimmedLine.startsWith("//") && _ignoreLineComments) continue;
+        else if (trimmedLine.endsWith("*/") && inDoc)
+        {
+            inDoc = false;
+            continue;
+        }
+        else if (trimmedLine.endsWith("*/") && inBlockComment)
+        {
+            inBlockComment = false;
+            continue;
+        }
+
+        if (inDoc) continue;
+        if (inBlockComment) continue;
+        if (inLicense) continue;
 
         //add content
         builtScript += line;
@@ -100,4 +129,24 @@ QString Builder::build(Script *s)
     scriptFile->close();
 
     return builtScript;
+}
+
+void Builder::setKeepLicense(bool keepLicense)
+{
+    _keepLicense = keepLicense;
+}
+
+void Builder::setIgnoreLineComments(bool ignoreLineComments)
+{
+    _ignoreLineComments = ignoreLineComments;
+}
+
+void Builder::setIgnoreBlockComments(bool ignoreBlockComments)
+{
+    _ignoreBlockComments = ignoreBlockComments;
+}
+
+void Builder::setIgnoreJSDoc(bool ignoreJSDoc)
+{
+    _ignoreJSDoc = ignoreJSDoc;
 }

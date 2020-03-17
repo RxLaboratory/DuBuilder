@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>603</width>
-    <height>424</height>
+    <width>891</width>
+    <height>445</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -85,6 +85,10 @@
    <addaction name="actionRe_scan_script"/>
    <addaction name="actionBuild"/>
    <addaction name="separator"/>
+   <addaction name="actionIgnoreJSDoc"/>
+   <addaction name="actionIgnoreBlockComments"/>
+   <addaction name="actionIgnoreLineComments"/>
+   <addaction name="actionKeepLicense"/>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
   <action name="actionOpen_Script">
@@ -152,6 +156,41 @@
    </property>
    <property name="shortcut">
     <string>F5, Ctrl+R</string>
+   </property>
+  </action>
+  <action name="actionIgnoreJSDoc">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Ignore /** */</string>
+   </property>
+  </action>
+  <action name="actionIgnoreBlockComments">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Ignore /* */</string>
+   </property>
+  </action>
+  <action name="actionIgnoreLineComments">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Ingore //</string>
+   </property>
+  </action>
+  <action name="actionKeepLicense">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Keep /* License */</string>
    </property>
   </action>
  </widget>

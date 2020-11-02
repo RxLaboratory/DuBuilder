@@ -15,5 +15,6 @@
         <file alias="ok">resources/icons/icones-53.svg</file>
         <file alias="warning">resources/icons/icones-54.svg</file>
         <file alias="file-settings">resources/icons/file-settings.svg</file>
+        <file alias="cogs">resources/icons/cogs.svg</file>
     </qresource>
 </RCC>

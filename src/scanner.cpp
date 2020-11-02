@@ -132,6 +132,35 @@ QString Scanner::checkIncludePath(QString name, QStringList includePaths,Script 
 
     if (QFile(name).exists()) return name;
 
+    //test default include paths
+    int numIncludePaths = settings.beginReadArray("includePaths");
+    for (int i = 0; i < numIncludePaths; i++)
+    {
+        settings.setArrayIndex(i);
+        path = addPathSlash(settings.value("path").toString()) + name;
+        if (QFile(path).exists())
+        {
+            settings.endArray();
+            return path;
+        }
+    }
+    settings.endArray();
+
+    //test again default include paths but stripping path from given name
+    settings.beginReadArray("includePaths");
+    for (int i = 0; i < numIncludePaths; i++)
+    {
+        settings.setArrayIndex(i);
+        path = addPathSlash(settings.value("path").toString()) + QFileInfo(name).fileName();
+        qDebug() << path;
+        if (QFile(path).exists())
+        {
+            settings.endArray();
+            return path;
+        }
+    }
+    settings.endArray();
+
     return scriptPath + "/" + name;
 }
 

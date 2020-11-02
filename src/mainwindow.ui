@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1043</width>
-    <height>406</height>
+    <width>1067</width>
+    <height>577</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -36,7 +36,7 @@
     <item>
      <widget class="QStackedWidget" name="mainStack">
       <property name="currentIndex">
-       <number>2</number>
+       <number>1</number>
       </property>
       <widget class="QWidget" name="mainPage">
        <layout class="QVBoxLayout" name="verticalLayout_2">
@@ -96,7 +96,25 @@
         </item>
        </layout>
       </widget>
-      <widget class="QWidget" name="settingsPage"/>
+      <widget class="QWidget" name="settingsPage">
+       <layout class="QVBoxLayout" name="verticalLayout_4">
+        <property name="spacing">
+         <number>0</number>
+        </property>
+        <property name="leftMargin">
+         <number>0</number>
+        </property>
+        <property name="topMargin">
+         <number>0</number>
+        </property>
+        <property name="rightMargin">
+         <number>0</number>
+        </property>
+        <property name="bottomMargin">
+         <number>0</number>
+        </property>
+       </layout>
+      </widget>
       <widget class="QWidget" name="progressPage">
        <layout class="QVBoxLayout" name="verticalLayout_3">
         <item>
@@ -148,8 +166,8 @@
    <addaction name="actionOpen_Script"/>
    <addaction name="actionRe_scan_script"/>
    <addaction name="actionBuild"/>
+   <addaction name="actionSettings"/>
   </widget>
-  <widget class="QStatusBar" name="statusBar"/>
   <action name="actionOpen_Script">
    <property name="icon">
     <iconset resource="resources.qrc">
@@ -250,6 +268,18 @@
    </property>
    <property name="text">
     <string>Keep /* License */</string>
+   </property>
+  </action>
+  <action name="actionSettings">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="resources.qrc">
+     <normaloff>:/icons/cogs</normaloff>:/icons/cogs</iconset>
+   </property>
+   <property name="text">
+    <string>Settings</string>
    </property>
   </action>
  </widget>

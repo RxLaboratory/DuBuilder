@@ -8,7 +8,7 @@ QT       += core gui
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
-DEFINES += APPVERSION=\\\"0.0.2-Alpha\\\"
+DEFINES += APPVERSION=\\\"1.0.0-Beta\\\"
 
 TARGET = Dubuilder
 TEMPLATE = app
@@ -19,6 +19,7 @@ SOURCES += main.cpp\
     scanner.cpp \
     script.cpp \
     scriptwidget.cpp \
+    settingswidget.cpp \
     toolbarspacer.cpp \
     builder.cpp \
     frameless.cpp \
@@ -28,6 +29,7 @@ HEADERS  += mainwindow.h \
     scanner.h \
     script.h \
     scriptwidget.h \
+    settingswidget.h \
     toolbarspacer.h \
     builder.h \
     frameless.h \
@@ -35,6 +37,7 @@ HEADERS  += mainwindow.h \
 
 FORMS    += mainwindow.ui \
     scriptwidget.ui \
+    settingswidget.ui \
     toolbarspacer.ui
 
 RESOURCES += \

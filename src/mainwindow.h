@@ -15,6 +15,7 @@
 #include "scriptwidget.h"
 #include "toolbarspacer.h"
 #include "rainboxui.h"
+#include "settingswidget.h"
 
 class MainWindow : public QMainWindow, private Ui::MainWindow
 {
@@ -32,6 +33,7 @@ private slots:
     void on_actionRe_scan_script_triggered();
     void on_treeWidget_itemDoubleClicked(QTreeWidgetItem *item, int column);
     void on_actionBuild_triggered();
+    void on_actionSettings_triggered(bool checked);
     void removeCurrentIncludeItems();
 
     //UI
@@ -85,6 +87,7 @@ private:
     QPushButton *quitButton;
     QToolButton* buildMenuButton;
     QLabel *titleLabel;
+    SettingsWidget *settingsWidget;
 
     /**
      * @brief Is the tool bar currently clicked or not

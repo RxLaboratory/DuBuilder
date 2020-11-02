@@ -6,6 +6,7 @@
 #include <QRegularExpressionMatch>
 #include <QThread>
 #include <QApplication>
+#include <QSettings>
 
 #include "script.h"
 
@@ -26,6 +27,7 @@ signals:
     void progress(int, QString);
 
 private:
+    QSettings settings;
     Script *script;
     bool recursive;
     QString checkIncludePath(QString path, QStringList includePaths, Script *s);

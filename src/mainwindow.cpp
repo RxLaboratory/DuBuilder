@@ -58,6 +58,10 @@ MainWindow::MainWindow(QWidget *parent) :
     //add tree shortcuts
     treeWidget->installEventFilter(this);
 
+    //settings widget
+    settingsWidget = new SettingsWidget(this);
+    settingsPage->layout()->addWidget(settingsWidget);
+
     //initilization
     scanner = new Scanner();
     builder = new Builder();
@@ -152,6 +156,12 @@ void MainWindow::on_actionBuild_triggered()
     builder->setIgnoreBlockComments(actionIgnoreBlockComments->isChecked());
     builder->setKeepLicense(actionKeepLicense->isChecked());
     builder->start();
+}
+
+void MainWindow::on_actionSettings_triggered(bool checked)
+{
+    if (checked) mainStack->setCurrentIndex(1);
+    else mainStack->setCurrentIndex(0);
 }
 
 void MainWindow::removeCurrentIncludeItems()
@@ -436,3 +446,4 @@ bool MainWindow::eventFilter(QObject *obj, QEvent *event)
   // standard event processing
   return QObject::eventFilter(obj, event);
 }
+

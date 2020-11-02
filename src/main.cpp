@@ -5,8 +5,8 @@
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
-    QCoreApplication::setOrganizationName("Duduf");
-    QCoreApplication::setOrganizationDomain("duduf.com");
+    QCoreApplication::setOrganizationName("Rainbox Laboratory");
+    QCoreApplication::setOrganizationDomain("rainboxlab.org");
     QCoreApplication::setApplicationName("DuBuilder");
     QCoreApplication::setApplicationVersion(APPVERSION);
     MainWindow w;

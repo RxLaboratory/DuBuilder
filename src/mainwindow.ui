@@ -84,11 +84,6 @@
    <addaction name="actionOpen_Script"/>
    <addaction name="actionRe_scan_script"/>
    <addaction name="actionBuild"/>
-   <addaction name="separator"/>
-   <addaction name="actionIgnoreJSDoc"/>
-   <addaction name="actionIgnoreBlockComments"/>
-   <addaction name="actionIgnoreLineComments"/>
-   <addaction name="actionKeepLicense"/>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
   <action name="actionOpen_Script">

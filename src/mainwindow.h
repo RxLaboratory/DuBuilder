@@ -7,6 +7,8 @@
 #include <QFile>
 #include <QMouseEvent>
 #include <QSettings>
+#include <QMenu>
+#include <QToolButton>
 
 #include "scanner.h"
 #include "builder.h"
@@ -80,6 +82,7 @@ private:
     QPushButton *minimizeButton;
 #endif
     QPushButton *quitButton;
+    QToolButton* buildMenuButton;
 
     /**
      * @brief Is the tool bar currently clicked or not

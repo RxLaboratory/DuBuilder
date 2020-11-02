@@ -12,6 +12,22 @@ MainWindow::MainWindow(QWidget *parent) :
     //remove right click on toolbar
     mainToolBar->setContextMenuPolicy(Qt::PreventContextMenu);
     //populate toolbar
+
+    //build options
+    QMenu * buildMenu = new QMenu(this);
+    buildMenu->addAction(actionIgnoreJSDoc);
+    buildMenu->addAction(actionIgnoreBlockComments);
+    buildMenu->addAction(actionIgnoreLineComments);
+    buildMenu->addAction(actionKeepLicense);
+    buildMenuButton = new QToolButton();
+    buildMenuButton->setMenu(buildMenu);
+    buildMenuButton->setPopupMode(QToolButton::InstantPopup);
+    buildMenuButton->setText("Build Settings...");
+    buildMenuButton->setIcon(QIcon(":/icons/file-settings"));
+    buildMenuButton->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
+    mainToolBar->insertWidget(actionBuild, buildMenuButton);
+    buildMenuButton->setEnabled(false);
+
     ToolBarSpacer *tbs = new ToolBarSpacer();
     mainToolBar->addWidget(tbs);
     //window buttons
@@ -172,6 +188,7 @@ void MainWindow::scanned(Script *script)
         actionRe_scan_script->setEnabled(true);
         actionBuild->setEnabled(true);
         actionCollect_Files->setEnabled(true);
+        buildMenuButton->setEnabled(true);
     }
     else
     {

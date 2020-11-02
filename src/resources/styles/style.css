@@ -432,6 +432,10 @@ QToolBar QComboBox {
         background-color: @color-light;
 }
 
+QToolBar QLabel {
+    background-color: @color-medium;
+}
+
 QToolButton:!enabled {
         color: @color-dark;
 }
@@ -443,10 +447,6 @@ QToolButton:checked {
 QToolBar QPushButton:checked {
         background-color: @color-less-light;
         color: @color-dark;
-}
-
-SearchWidget QPushButton {
-        background-color: @color-medium;
 }
 
 QToolButton:pressed:hover,  QToolBar QPushButton:pressed:hover {

@@ -83,6 +83,7 @@ private:
 #endif
     QPushButton *quitButton;
     QToolButton* buildMenuButton;
+    QLabel *titleLabel;
 
     /**
      * @brief Is the tool bar currently clicked or not

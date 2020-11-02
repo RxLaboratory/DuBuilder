@@ -30,6 +30,11 @@ MainWindow::MainWindow(QWidget *parent) :
 
     ToolBarSpacer *tbs = new ToolBarSpacer();
     mainToolBar->addWidget(tbs);
+
+    //title
+    titleLabel = new QLabel("");
+    mainToolBar->addWidget(titleLabel);
+
     //window buttons
 #ifndef Q_OS_MAC
     // Maximize and minimize only on linux and windows
@@ -189,6 +194,7 @@ void MainWindow::scanned(Script *script)
         actionBuild->setEnabled(true);
         actionCollect_Files->setEnabled(true);
         buildMenuButton->setEnabled(true);
+        titleLabel->setText(currentScript->completeName());
     }
     else
     {

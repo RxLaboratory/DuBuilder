@@ -9,6 +9,7 @@ Script::Script(QObject *parent) :
 {
     _file = new QFile();
     _name = "";
+    _completeName = "";
     _existing = false;
     _line = -1;
     _id = 0;
@@ -18,6 +19,7 @@ Script::Script(QString n, QString path, int l, QObject *parent) :
     QObject(parent)
 {
     _file = new QFile(path);
+    _completeName = QFileInfo(*_file).fileName();
     _name = n;
     _existing = _file->exists();
     _line = l;
@@ -29,6 +31,7 @@ Script::Script(QString fileName, int l, QObject *parent) :
     _file = new QFile(fileName);
     QFileInfo info(*_file);
     _name = info.completeBaseName();
+    _completeName = info.fileName();
     _existing = _file->exists();
     _line = l;
 }
@@ -112,4 +115,9 @@ void Script::addInclude(Script *s)
 Script *Script::takeInclude(int i)
 {
     return _includes.takeAt(i);
+}
+
+QString Script::completeName() const
+{
+    return _completeName;
 }

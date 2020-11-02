@@ -6,6 +6,7 @@
 #include <QFileInfo>
 #include <QObject>
 #include <QApplication>
+#include <QFileInfo>
 
 class Script : public QObject
 {
@@ -21,6 +22,7 @@ public:
     void setId(int i);
     int line();
     QString name();
+    QString completeName() const;
     QFile *file();
     int id();
     bool exists();
@@ -30,6 +32,7 @@ public:
 
 private:
     QString _name;
+    QString _completeName;
     QFile *_file;
     bool _existing;
     int _line;

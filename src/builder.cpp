@@ -21,7 +21,7 @@ void Builder::run()
     _progressValue = -1;
     QString builtScript = build(script);
 
-    if (builtScript != "") emit built(builtScript);
+    emit built(builtScript);
 }
 
 QString Builder::build(Script *s)

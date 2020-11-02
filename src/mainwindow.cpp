@@ -19,6 +19,7 @@ MainWindow::MainWindow(QWidget *parent) :
     buildMenu->addAction(actionIgnoreBlockComments);
     buildMenu->addAction(actionIgnoreLineComments);
     buildMenu->addAction(actionKeepLicense);
+    buildMenu->addAction(actionBuild_JSDoc);
     buildMenuButton = new QToolButton();
     buildMenuButton->setMenu(buildMenu);
     buildMenuButton->setPopupMode(QToolButton::InstantPopup);
@@ -69,6 +70,9 @@ MainWindow::MainWindow(QWidget *parent) :
     scanningItem = nullptr;
     currentScript = nullptr;
 
+    //JSdoc build process
+    jsdocProcess = new QProcess(this);
+
     mainStack->setCurrentIndex(0);
 
     //connexions
@@ -83,6 +87,10 @@ void MainWindow::mapEvents()
     connect(builder,SIGNAL(built(QString)),this,SLOT(built(QString)));
     connect(builder,SIGNAL(started()),this,SLOT(setWaiting()));
     connect(builder,SIGNAL(progress(int,QString)), this, SLOT(progress(int, QString)));
+    connect(jsdocProcess,SIGNAL(finished(int, QProcess::ExitStatus)),this, SLOT(jsdocBuilt(int, QProcess::ExitStatus)));
+    connect(jsdocProcess,SIGNAL(readyReadStandardError()),this, SLOT(jsdocOutput()));
+    connect(jsdocProcess,SIGNAL(readyReadStandardOutput()),this, SLOT(jsdocOutput()));
+    connect(jsdocProcess,SIGNAL(errorOccurred(QProcess::ProcessError)), this, SLOT(jsdocError(QProcess::ProcessError)));
 
     // Window management
 #ifndef Q_OS_MAC
@@ -162,6 +170,19 @@ void MainWindow::on_actionSettings_triggered(bool checked)
 {
     if (checked) mainStack->setCurrentIndex(1);
     else mainStack->setCurrentIndex(0);
+}
+
+void MainWindow::on_actionBuild_JSDoc_triggered(bool checked)
+{
+    if (!checked) return;
+
+    QString file = QFileDialog::getOpenFileName(this,"Select the jsdoc conf file","","*.json");
+    if (file == "")
+    {
+        actionBuild_JSDoc->setChecked(false);
+        return;
+    }
+    jsdocConfFile = QFileInfo(file);
 }
 
 void MainWindow::removeCurrentIncludeItems()
@@ -264,6 +285,34 @@ void MainWindow::built(QString builtScript)
     saveFile.close();
     builtScript = "";
 
+    if (actionBuild_JSDoc->isChecked() && jsdocConfFile.exists())
+    {
+         QString cmd = "cmd.exe /c \"jsdoc -c \"" + jsdocConfFile.fileName() + "\"\"";
+         jsdocProcess->setWorkingDirectory(jsdocConfFile.dir().absolutePath());
+         jsdocProcess->start(cmd);
+         progress(progressBar->maximum(), "Building jsdoc...");
+    }
+    else
+    {
+        setWaiting(false);
+    }
+}
+
+void MainWindow::jsdocBuilt(int exitCode, QProcess::ExitStatus exitStatus)
+{
+    //TODO Check exit code and status
+    setWaiting(false);
+}
+
+void MainWindow::jsdocOutput()
+{
+    qDebug() << jsdocProcess->readAll();
+}
+
+void MainWindow::jsdocError(QProcess::ProcessError error)
+{
+    qDebug() << error;
+    qDebug() << jsdocProcess->errorString();
     setWaiting(false);
 }
 
@@ -446,4 +495,3 @@ bool MainWindow::eventFilter(QObject *obj, QEvent *event)
   // standard event processing
   return QObject::eventFilter(obj, event);
 }
-

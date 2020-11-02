@@ -256,7 +256,7 @@
     <bool>true</bool>
    </property>
    <property name="text">
-    <string>Ingore //</string>
+    <string>Ignore //</string>
    </property>
   </action>
   <action name="actionKeepLicense">
@@ -280,6 +280,14 @@
    </property>
    <property name="text">
     <string>Settings</string>
+   </property>
+  </action>
+  <action name="actionBuild_JSDoc">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Build JSDoc</string>
    </property>
   </action>
  </widget>

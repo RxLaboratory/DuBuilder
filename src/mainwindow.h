@@ -28,12 +28,16 @@ private slots:
     void scanned(Script *script);
     void built(QString builtScript);
     void progress(int i, QString message);
+    void jsdocBuilt(int exitCode, QProcess::ExitStatus exitStatus);
+    void jsdocOutput();
+    void jsdocError(QProcess::ProcessError error);
     //actions
     void on_actionOpen_Script_triggered();
     void on_actionRe_scan_script_triggered();
     void on_treeWidget_itemDoubleClicked(QTreeWidgetItem *item, int column);
     void on_actionBuild_triggered();
     void on_actionSettings_triggered(bool checked);
+    void on_actionBuild_JSDoc_triggered(bool checked);
     void removeCurrentIncludeItems();
 
     //UI
@@ -50,6 +54,7 @@ private:
 
     Scanner *scanner;
     Builder *builder;
+    QProcess *jsdocProcess;
 
     //CURRENT
 
@@ -66,6 +71,7 @@ private:
      * @brief scanningItem The item being scanned. nullptr if root
      */
     QTreeWidgetItem *scanningItem;
+    QFileInfo jsdocConfFile;
     /**
      * @brief settings Application settings
      */

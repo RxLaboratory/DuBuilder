@@ -5,6 +5,8 @@
 #include <QFile>
 #include <QRegularExpressionMatch>
 #include <QThread>
+#include <QDir>
+#include <QProcess>
 
 #include "script.h"
 

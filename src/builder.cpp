@@ -8,6 +8,7 @@ Builder::Builder()
     _ignoreBlockComments = false;
     _ignoreLineComments = false;
     _keepLicense = true;
+    _progressValue = -1;
 }
 
 void Builder::setScript(Script *s)
@@ -17,6 +18,7 @@ void Builder::setScript(Script *s)
 
 void Builder::run()
 {
+    _progressValue = -1;
     QString builtScript = build(script);
 
     if (builtScript != "") emit built(builtScript);
@@ -29,6 +31,9 @@ QString Builder::build(Script *s)
 
     QFile *scriptFile = s->file();
     QFileInfo scriptInfo(*scriptFile);
+
+    _progressValue++;
+    emit progress(_progressValue, "Building " + scriptInfo.fileName());
 
     //Check script file integrity
     if (!scriptFile->exists())
@@ -81,8 +86,10 @@ QString Builder::build(Script *s)
             QString includedBuild = "";
             foreach(Script *is,includedScripts)
             {
+#ifdef QT_DEBUG
                 qDebug() << lineNumber ;
                 qDebug() << is->name() << is->line();
+#endif
                 if (is->line() == lineNumber)
                 {
                     //build the script

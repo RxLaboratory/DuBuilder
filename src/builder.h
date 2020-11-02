@@ -35,6 +35,12 @@ signals:
      * @param builtScript The built script (empty string if anything went wrong)
      */
     void built(QString builtScript);
+    /**
+     * @brief Emitted for each script being built. Connected to the progress bar of the UI.
+     * @param i The progress value
+     * @param message A message to be displayed
+     */
+    void progress(int i, QString message);
 
 private:
     /**
@@ -63,6 +69,10 @@ private:
      * @brief _keepLicense Keeps comment blocks starting with License
      */
     bool _keepLicense;
+    /**
+     * @brief The value used in the progress() signal to update the progress bar in the UI
+     */
+    int _progressValue;
 };
 
 #endif // BUILDER_H

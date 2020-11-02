@@ -23,6 +23,7 @@ signals:
     void finished(Script*);
     void openFailed();
     void invalidFile();
+    void progress(int, QString);
 
 private:
     Script *script;

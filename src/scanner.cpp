@@ -35,6 +35,7 @@ bool Scanner::scan(Script *s)
 #endif
 
     QFile *scriptFile = s->file();
+    emit progress(-1,"Scanning \"" + s->name() + "\"");
     currentId++;
     s->setId(currentId);
 

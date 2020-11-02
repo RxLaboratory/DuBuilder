@@ -55,9 +55,6 @@ MainWindow::MainWindow(QWidget *parent) :
     QString css = RainboxUI::loadCSS(":/styles/default");
     qApp->setStyleSheet(css);
 
-    //hide tree when nothing is opened
-    treeWidget->hide();
-
     //add tree shortcuts
     treeWidget->installEventFilter(this);
 
@@ -68,6 +65,8 @@ MainWindow::MainWindow(QWidget *parent) :
     scanningItem = nullptr;
     currentScript = nullptr;
 
+    mainStack->setCurrentIndex(0);
+
     //connexions
     mapEvents();
 }
@@ -76,8 +75,10 @@ void MainWindow::mapEvents()
 {
     connect(scanner,SIGNAL(finished(Script*)),this,SLOT(scanned(Script*)));
     connect(scanner,SIGNAL(started()),this,SLOT(setWaiting()));
+    connect(scanner,SIGNAL(progress(int, QString)),this,SLOT(progress(int, QString)));
     connect(builder,SIGNAL(built(QString)),this,SLOT(built(QString)));
     connect(builder,SIGNAL(started()),this,SLOT(setWaiting()));
+    connect(builder,SIGNAL(progress(int,QString)), this, SLOT(progress(int, QString)));
 
     // Window management
 #ifndef Q_OS_MAC
@@ -96,6 +97,7 @@ void MainWindow::on_actionOpen_Script_triggered()
     QString scriptPath = QFileDialog::getOpenFileName(this,"Select script",settings.value("latestopenpath").toString(),"All scripts (*.jsx *.jsxinc *.js);;ExtendScript (*.jsx *.jsxinc);;JavaScript (*.js);;Text (*.txt);;All Files (*.*)");
     if (scriptPath.isNull() || scriptPath.isEmpty()) return;
     settings.setValue("latestopenpath",QFileInfo(scriptPath).path());
+    progressBar->setMaximum(1);
 
     //scan
     scanningItem = nullptr;
@@ -107,12 +109,13 @@ void MainWindow::on_actionOpen_Script_triggered()
 void MainWindow::on_actionRe_scan_script_triggered()
 {
     //not ready!
-    treeWidget->hide();
     actionRe_scan_script->setEnabled(false);
     actionBuild->setEnabled(false);
     actionCollect_Files->setEnabled(false);
-    this->setWindowTitle("Builder");
+    titleLabel->setText("");
+    this->setWindowTitle("DuBuilder");
     this->repaint();
+    progressBar->setMaximum(1);
 
     scanningItem = nullptr;
     scanner->setFile(currentScript->file()->fileName());
@@ -228,6 +231,7 @@ void MainWindow::scanned(Script *script)
             }
         }
     }
+
     setWaiting(false);
 
 }
@@ -253,6 +257,20 @@ void MainWindow::built(QString builtScript)
     setWaiting(false);
 }
 
+void MainWindow::progress(int i, QString message)
+{
+    progressBar->setValue(i);
+    if (i < 0)
+    {
+        progressBar->setValue(0);
+        progressBar->setFormat(message);
+    }
+    else
+    {
+        progressBar->setFormat("%p% | " + message);
+    }
+}
+
 // METHODS
 
 QTreeWidgetItem *MainWindow::createIncludeItem(Script *script)
@@ -270,6 +288,8 @@ QTreeWidgetItem *MainWindow::createIncludeItem(Script *script)
     else scriptItem->setIcon(0,QIcon(":/icons/warning"));
     scriptItem->setData(0,Qt::UserRole,script->id());
     scriptItem->setExpanded(true);
+
+    progressBar->setMaximum(progressBar->maximum() + 1);
 
     //add children
     foreach(Script *s,script->includes())
@@ -336,13 +356,13 @@ void MainWindow::setWaiting(bool wait)
     {
         setCursor(Qt::BusyCursor);
         mainToolBar->setEnabled(false);
-        treeWidget->hide();
+        mainStack->setCurrentIndex(2);
     }
     else
     {
         setCursor(Qt::ArrowCursor);
         mainToolBar->setEnabled(true);
-        treeWidget->show();
+        mainStack->setCurrentIndex(0);
     }
     repaint();
 }

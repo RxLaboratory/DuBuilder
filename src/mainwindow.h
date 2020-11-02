@@ -26,6 +26,7 @@ public:
 private slots:
     void scanned(Script *script);
     void built(QString builtScript);
+    void progress(int i, QString message);
     //actions
     void on_actionOpen_Script_triggered();
     void on_actionRe_scan_script_triggered();

@@ -37,6 +37,10 @@ MainWindow::MainWindow(int argc, char *argv[], QWidget *parent) :
     ToolBarSpacer *tbs = new ToolBarSpacer();
     mainToolBar->addWidget(tbs);
 
+    //title
+    titleLabel = new QLabel("");
+    mainToolBar->addWidget(titleLabel);
+
     //settings and other buttons to the right
     mainToolBar->addAction(actionSettings);
     mainToolBar->widgetForAction( actionSettings )->setObjectName("windowButton");
@@ -54,10 +58,6 @@ MainWindow::MainWindow(int argc, char *argv[], QWidget *parent) :
     helpMenuButton->setIcon(QIcon(":/icons/help"));
     helpMenuButton->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
     mainToolBar->addWidget(helpMenuButton);
-
-    //title
-    titleLabel = new QLabel("");
-    mainToolBar->addWidget(titleLabel);
 
     //window buttons
 #ifndef Q_OS_MAC

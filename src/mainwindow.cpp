@@ -2,9 +2,10 @@
 
 #include <QtDebug>
 
-MainWindow::MainWindow(QWidget *parent) :
+MainWindow::MainWindow(int argc, char *argv[], QWidget *parent) :
     QMainWindow(parent)
 {
+
     setupUi(this);
 
     //UI
@@ -77,6 +78,57 @@ MainWindow::MainWindow(QWidget *parent) :
 
     //connexions
     mapEvents();
+
+    //Process args
+    outputFile = "";
+    if (argc > 1)
+    {
+        //the first one is the input file
+        QString inputFile(argv[1]);
+        QString jsdocConfPath = "";
+        //if there are only 2 args, the last one is the output file
+        if (argc == 3) outputFile = argv[2];
+        else if (argc > 3)
+        {
+            for (int i = 2; i < argc-1; i++)
+            {
+                QString arg(argv[i]);
+                if ( (arg.toLower() == "-d" || arg.toLower() == "--jsdoc") && i < argc - 2) jsdocConfPath = argv[i+1];
+            }
+            //the last one is the output file
+           outputFile = argv[argc-1];
+        }
+
+        if (jsdocConfPath != "")
+        {
+            QFileInfo jsdoc(jsdocConfPath);
+            if (jsdoc.exists())
+            {
+                jsdocConfFile = jsdoc;
+                actionBuild_JSDoc->setChecked(true);
+                qInfo().noquote() << "Building JSDoc from: " + jsdocConfPath;
+            }
+            else
+            {
+                qInfo().noquote() << "Sorry, cannot read the jsdoc conf file: " + jsdocConfPath;
+                qInfo() << "JSdoc will not be built";
+            }
+        }
+
+        if (inputFile != "")
+        {
+            bool ok = openFile(inputFile);
+            if (ok)
+            {
+                qInfo().noquote() << "Opening: " + inputFile;
+            }
+            else
+            {
+                qInfo().noquote() << "Sorry, Cannot open file: " + inputFile;
+            }
+        }
+
+    }
 }
 
 void MainWindow::mapEvents()
@@ -101,6 +153,37 @@ void MainWindow::mapEvents()
     connect(quitButton,SIGNAL(clicked()),qApp,SLOT(quit()));
 }
 
+bool MainWindow::openFile(QString filePath)
+{
+    QFileInfo fileInfo(filePath);
+    if (!fileInfo.exists()) return false;
+    settings.setValue("latestopenpath",fileInfo.path());
+    progressBar->setMaximum(1);
+
+    //scan
+    scanningItem = nullptr;
+    scanner->setFile(filePath);
+    scanner->setRecursive(true);
+    scanner->start();
+    return true;
+}
+
+bool MainWindow::buildFile(QString filePath)
+{
+    savePath = filePath;
+    QFileInfo fileInfo(savePath);
+    settings.setValue("latestsavepath",fileInfo.path());
+
+    //build
+    builder->setScript(currentScript);
+    builder->setIgnoreJSDoc(actionIgnoreJSDoc->isChecked());
+    builder->setIgnoreLineComments(actionIgnoreLineComments->isChecked());
+    builder->setIgnoreBlockComments(actionIgnoreBlockComments->isChecked());
+    builder->setKeepLicense(actionKeepLicense->isChecked());
+    builder->start();
+    return true;
+}
+
 // ACTIONS
 
 void MainWindow::on_actionOpen_Script_triggered()
@@ -108,14 +191,7 @@ void MainWindow::on_actionOpen_Script_triggered()
     //open file
     QString scriptPath = QFileDialog::getOpenFileName(this,"Select script",settings.value("latestopenpath").toString(),"All scripts (*.jsx *.jsxinc *.js);;ExtendScript (*.jsx *.jsxinc);;JavaScript (*.js);;Text (*.txt);;All Files (*.*)");
     if (scriptPath.isNull() || scriptPath.isEmpty()) return;
-    settings.setValue("latestopenpath",QFileInfo(scriptPath).path());
-    progressBar->setMaximum(1);
-
-    //scan
-    scanningItem = nullptr;
-    scanner->setFile(scriptPath);
-    scanner->setRecursive(true);
-    scanner->start();
+    openFile(scriptPath);
 }
 
 void MainWindow::on_actionRe_scan_script_triggered()
@@ -153,17 +229,9 @@ void MainWindow::on_treeWidget_itemDoubleClicked(QTreeWidgetItem *item, int colu
 
 void MainWindow::on_actionBuild_triggered()
 {
-    savePath = QFileDialog::getSaveFileName(this,"Select script",settings.value("latestsavepath").toString() + currentScript->completeName(),"All scripts (*.jsx *.jsxinc *.js);;ExtendScript (*.jsx *.jsxinc);;JavaScript (*.js);;Text (*.txt);;All Files (*.*)");
-    if (savePath.isNull() || savePath.isEmpty()) return;
-    settings.setValue("latestsavepath",QFileInfo(savePath).path());
-
-    //build
-    builder->setScript(currentScript);
-    builder->setIgnoreJSDoc(actionIgnoreJSDoc->isChecked());
-    builder->setIgnoreLineComments(actionIgnoreLineComments->isChecked());
-    builder->setIgnoreBlockComments(actionIgnoreBlockComments->isChecked());
-    builder->setKeepLicense(actionKeepLicense->isChecked());
-    builder->start();
+    QString path = QFileDialog::getSaveFileName(this,"Select script",settings.value("latestsavepath").toString() + currentScript->completeName(),"All scripts (*.jsx *.jsxinc *.js);;ExtendScript (*.jsx *.jsxinc);;JavaScript (*.js);;Text (*.txt);;All Files (*.*)");
+    if (path.isNull() || path.isEmpty()) return;
+    buildFile(path);
 }
 
 void MainWindow::on_actionSettings_triggered(bool checked)
@@ -177,7 +245,7 @@ void MainWindow::on_actionBuild_JSDoc_triggered(bool checked)
     if (!checked) return;
 
     QString file = QFileDialog::getOpenFileName(this,"Select the jsdoc conf file","","*.json");
-    if (file == "")
+    if (file.isNull() || file.isEmpty())
     {
         actionBuild_JSDoc->setChecked(false);
         return;
@@ -265,6 +333,20 @@ void MainWindow::scanned(Script *script)
 
     setWaiting(false);
 
+    //If there's an output file, let's build this!
+    if (outputFile != "")
+    {
+        bool ok = buildFile(outputFile);
+        if (ok)
+        {
+            qInfo().noquote() << "Building to: " + outputFile;
+        }
+        else
+        {
+            qInfo().noquote() << "Sorry, Cannot build to: " + outputFile;
+            qApp->quit();
+        }
+    }
 }
 
 void MainWindow::built(QString builtScript)
@@ -291,10 +373,23 @@ void MainWindow::built(QString builtScript)
          jsdocProcess->setWorkingDirectory(jsdocConfFile.dir().absolutePath());
          jsdocProcess->start(cmd);
          progress(progressBar->maximum(), "Building jsdoc...");
+         //If the output file was set by command line, print info and continue
+         if( outputFile != "")
+         {
+             qInfo() << "Building JSDoc";
+             return;
+         }
     }
     else
     {
         setWaiting(false);
+    }
+
+    //If the output file was set by command line, print info and quit
+    if (outputFile != "")
+    {
+        qInfo() << "Build finished.";
+        qApp->quit();
     }
 }
 
@@ -302,6 +397,13 @@ void MainWindow::jsdocBuilt(int exitCode, QProcess::ExitStatus exitStatus)
 {
     //TODO Check exit code and status
     setWaiting(false);
+
+    //If the output file was set by command line, print info and quit
+    if (outputFile != "")
+    {
+        qInfo() << "Build finished.";
+        qApp->quit();
+    }
 }
 
 void MainWindow::jsdocOutput()

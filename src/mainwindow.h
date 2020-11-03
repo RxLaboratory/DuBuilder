@@ -22,7 +22,7 @@ class MainWindow : public QMainWindow, private Ui::MainWindow
     Q_OBJECT
 
 public:
-    explicit MainWindow(QWidget *parent = 0);
+    explicit MainWindow(int argc, char *argv[], QWidget *parent = 0);
 
 private slots:
     void scanned(Script *script);
@@ -76,10 +76,16 @@ private:
      * @brief settings Application settings
      */
     QSettings settings;
+    /**
+     * @brief outputFile The path of the output file, if provided by command line args
+     */
+    QString outputFile;
 
     //METHODS
 
     void mapEvents();
+    bool openFile(QString filePath);
+    bool buildFile(QString filePath);
     bool updateScript(Script *containingScript, Script *newScript);
     void removeInclude(Script *containingScript, int scriptId);
     void removeInclude(Script *containingScript, Script *includeScript);

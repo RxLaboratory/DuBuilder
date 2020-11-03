@@ -12,6 +12,10 @@ MainWindow::MainWindow(int argc, char *argv[], QWidget *parent) :
 
     //remove right click on toolbar
     mainToolBar->setContextMenuPolicy(Qt::PreventContextMenu);
+
+    //status bar
+    mainStatusBar->addPermanentWidget(new QLabel("v" + QString(STR_VERSION)));
+
     //populate toolbar
 
     //build options

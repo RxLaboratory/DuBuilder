@@ -40,7 +40,7 @@
     <item>
      <widget class="QStackedWidget" name="mainStack">
       <property name="currentIndex">
-       <number>1</number>
+       <number>2</number>
       </property>
       <widget class="QWidget" name="mainPage">
        <layout class="QVBoxLayout" name="verticalLayout_2">
@@ -171,7 +171,7 @@
    <addaction name="actionRe_scan_script"/>
    <addaction name="actionBuild"/>
   </widget>
-  <widget class="QStatusBar" name="statusBar"/>
+  <widget class="QStatusBar" name="mainStatusBar"/>
   <action name="actionOpen_Script">
    <property name="icon">
     <iconset resource="resources.qrc">

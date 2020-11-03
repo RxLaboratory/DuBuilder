@@ -86,7 +86,7 @@ bool processArgs(int argc, char *argv[])
         qInfo() << "";
         qInfo() << "Options";
         qInfo() << "    -n / --noBanner                 Hides the banner with copyright and license notice.";
-        qInfo() << "    -d / --jsdoc jsdoc_conf.json    Also build the jsdoc using the jsdoc_conf.json configuration file. Jsdoc must be installed. See jsdoc.app for more info.";
+        qInfo() << "    -d / --jsdoc jsdoc_conf.json    Also build the jsdoc using the jsdoc_conf.json configuration file. Jsdoc must be installed. See https://jsdoc.app for more info.";
     }
 
 #ifdef Q_OS_WIN

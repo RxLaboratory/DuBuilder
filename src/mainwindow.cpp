@@ -33,6 +33,24 @@ MainWindow::MainWindow(int argc, char *argv[], QWidget *parent) :
     ToolBarSpacer *tbs = new ToolBarSpacer();
     mainToolBar->addWidget(tbs);
 
+    //settings and other buttons to the right
+    mainToolBar->addAction(actionSettings);
+    mainToolBar->widgetForAction( actionSettings )->setObjectName("windowButton");
+
+    QMenu *helpMenu = new QMenu(this);
+    helpMenu->addAction(actionBug_Report);
+    helpMenu->addAction(actionChat);
+    helpMenu->addAction(actionForum);
+    helpMenu->addAction(actionHelp);
+    helpMenu->addAction(actionAbout_Qt);
+    helpMenuButton = new QToolButton(this);
+    helpMenuButton->setMenu(helpMenu);
+    helpMenuButton->setObjectName("windowButton");
+    helpMenuButton->setPopupMode(QToolButton::InstantPopup);
+    helpMenuButton->setIcon(QIcon(":/icons/help"));
+    helpMenuButton->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
+    mainToolBar->addWidget(helpMenuButton);
+
     //title
     titleLabel = new QLabel("");
     mainToolBar->addWidget(titleLabel);
@@ -41,12 +59,18 @@ MainWindow::MainWindow(int argc, char *argv[], QWidget *parent) :
 #ifndef Q_OS_MAC
     // Maximize and minimize only on linux and windows
     this->setWindowFlags(Qt::FramelessWindowHint);
-    maximizeButton = new QPushButton(QIcon(":/icons/maximize"),"");
-    minimizeButton = new QPushButton(QIcon(":/icons/minimize"),"");
+    maximizeButton = new QToolButton();
+    maximizeButton->setIcon(QIcon(":/icons/maximize"));
+    maximizeButton->setObjectName("windowButton");
+    minimizeButton = new QToolButton();
+    minimizeButton->setIcon(QIcon(":/icons/minimize"));
+    minimizeButton->setObjectName("windowButton");
     mainToolBar->addWidget(minimizeButton);
     mainToolBar->addWidget(maximizeButton);
 #endif
-    quitButton = new QPushButton(QIcon(":/icons/close"),"");
+    quitButton = new QToolButton();
+    quitButton->setIcon(QIcon(":/icons/close"));
+    quitButton->setObjectName("windowButton");
     mainToolBar->addWidget(quitButton);
 
     //drag window
@@ -186,6 +210,33 @@ bool MainWindow::buildFile(QString filePath)
 
 // ACTIONS
 
+void MainWindow::on_actionAbout_Qt_triggered()
+{
+    QMessageBox::aboutQt(this);
+}
+
+void MainWindow::on_actionHelp_triggered()
+{
+    QDesktopServices::openUrl(QUrl(URL_DOC));
+}
+
+void MainWindow::on_actionBug_Report_triggered()
+{
+    QDesktopServices::openUrl(QUrl(URL_BUGREPORT));
+}
+
+void MainWindow::on_actionChat_triggered()
+{
+    QDesktopServices::openUrl(QUrl(URL_CHAT));
+}
+
+
+void MainWindow::on_actionForum_triggered()
+{
+    QDesktopServices::openUrl(QUrl(URL_FORUM));
+}
+
+
 void MainWindow::on_actionOpen_Script_triggered()
 {
     //open file
@@ -236,8 +287,16 @@ void MainWindow::on_actionBuild_triggered()
 
 void MainWindow::on_actionSettings_triggered(bool checked)
 {
-    if (checked) mainStack->setCurrentIndex(1);
-    else mainStack->setCurrentIndex(0);
+    if (checked)
+    {
+        actionSettings->setIcon(QIcon(":/icons/close_m"));
+        mainStack->setCurrentIndex(1);
+    }
+    else
+    {
+        actionSettings->setIcon(QIcon(":/icons/cogs"));
+        mainStack->setCurrentIndex(0);
+    }
 }
 
 void MainWindow::on_actionBuild_JSDoc_triggered(bool checked)
@@ -597,3 +656,4 @@ bool MainWindow::eventFilter(QObject *obj, QEvent *event)
   // standard event processing
   return QObject::eventFilter(obj, event);
 }
+

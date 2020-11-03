@@ -6,10 +6,6 @@
     </qresource>
     <qresource prefix="/icons">
         <file alias="open">resources/icons/icones-01.svg</file>
-        <file alias="close">resources/icons/icones-14.svg</file>
-        <file alias="maximize">resources/icons/icones-16.svg</file>
-        <file alias="minimize">resources/icons/icones-18.svg</file>
-        <file alias="unmaximize">resources/icons/icones-23.svg</file>
         <file alias="export">resources/icons/icones-51.svg</file>
         <file alias="scan">resources/icons/icones-52.svg</file>
         <file alias="ok">resources/icons/icones-53.svg</file>
@@ -17,5 +13,15 @@
         <file alias="file-settings">resources/icons/file-settings.svg</file>
         <file alias="cogs">resources/icons/cogs.svg</file>
         <file alias="appicon">resources/icons/dubuilder-appicon-medium.svg</file>
+        <file alias="help">resources/icons/help.svg</file>
+        <file alias="close">resources/icons/window-close.svg</file>
+        <file alias="maximize">resources/icons/window-maximize.svg</file>
+        <file alias="minimize">resources/icons/window-minimize.svg</file>
+        <file alias="unmaximize">resources/icons/window-restore.svg</file>
+        <file alias="help_m">resources/icons/help_m.svg</file>
+        <file alias="close_m">resources/icons/close.svg</file>
+        <file alias="bugreport">resources/icons/bugreport.svg</file>
+        <file alias="chat">resources/icons/discord.svg</file>
+        <file alias="forum">resources/icons/forum.svg</file>
     </qresource>
 </RCC>

@@ -29,7 +29,7 @@
 
 #define STR_COMPANYDOMAIN "rainboxlab.org"
 
-#define URL_CHAT "htts://chat.rainboxlab.org"
+#define URL_CHAT "http://chat.rainboxlab.org"
 #define URL_FORUM "https://forum.rainboxlab.org"
 #define URL_DOC "https://dubuilder-docs.rainboxlab.org"
 #define URL_BUGREPORT "https://github.com/Rainbox-dev/DuAEF_DuBuilder/issues/new/choose"

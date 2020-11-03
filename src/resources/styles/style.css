@@ -761,6 +761,11 @@ QStatusBar QLabel {
         margin-left: @margin;
 }
 
+QStatusBar QSizeGrip {
+    background: qlineargradient(x1: 0, y1: 0, x2: 1, y2: 1,
+      stop: 0.5 @color-dark, stop: 0.55 @color-medium);
+}
+
 /* PROGRESS BAR */
 
 QProgressBar {
@@ -788,3 +793,4 @@ QSplashScreen QLabel {
     background: transparent;
     color: @color-dark;
 }
+

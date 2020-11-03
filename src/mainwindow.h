@@ -9,7 +9,10 @@
 #include <QSettings>
 #include <QMenu>
 #include <QToolButton>
+#include <QMessageBox>
+#include <QDesktopServices>
 
+#include "version.h"
 #include "scanner.h"
 #include "builder.h"
 #include "scriptwidget.h"
@@ -32,6 +35,11 @@ private slots:
     void jsdocOutput();
     void jsdocError(QProcess::ProcessError error);
     //actions
+    void on_actionAbout_Qt_triggered();
+    void on_actionHelp_triggered();
+    void on_actionBug_Report_triggered();
+    void on_actionChat_triggered();
+    void on_actionForum_triggered();
     void on_actionOpen_Script_triggered();
     void on_actionRe_scan_script_triggered();
     void on_treeWidget_itemDoubleClicked(QTreeWidgetItem *item, int column);
@@ -93,11 +101,12 @@ private:
 
     //UI
 #ifndef Q_OS_MAC
-    QPushButton *maximizeButton;
-    QPushButton *minimizeButton;
+    QToolButton *maximizeButton;
+    QToolButton *minimizeButton;
 #endif
-    QPushButton *quitButton;
+    QToolButton *quitButton;
     QToolButton* buildMenuButton;
+    QToolButton* helpMenuButton;
     QLabel *titleLabel;
     SettingsWidget *settingsWidget;
 

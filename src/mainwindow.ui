@@ -13,6 +13,10 @@
   <property name="windowTitle">
    <string>Builder</string>
   </property>
+  <property name="windowIcon">
+   <iconset resource="resources.qrc">
+    <normaloff>:/icons/appicon</normaloff>:/icons/appicon</iconset>
+  </property>
   <property name="toolButtonStyle">
    <enum>Qt::ToolButtonTextUnderIcon</enum>
   </property>

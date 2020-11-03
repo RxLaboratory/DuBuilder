@@ -45,9 +45,9 @@ RESOURCES += \
 # OS Specific configurations
 win* {
     # Add version and other metadata
-    #DISTFILES += app.rc
-    #RC_FILE = app.rc
-    #!build_pass:touch($$RC_FILE, DuF/version.h)
+    DISTFILES += app.rc
+    RC_FILE = app.rc
+    !build_pass:touch($$RC_FILE, version.h)
     # Enable console output
     CONFIG += console
 } else:unix {
@@ -57,3 +57,6 @@ win* {
 } else:macx {
     # Just in case...
 }
+
+DISTFILES += \
+    app.rc

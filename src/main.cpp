@@ -40,7 +40,6 @@ void MessageHandler::messageOutput(QtMsgType type, const QMessageLogContext &con
     }
 }
 
-
 // Process the CLI arguments
 bool processArgs(int argc, char *argv[])
 {

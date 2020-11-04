@@ -631,7 +631,9 @@ bool MainWindow::eventFilter(QObject *obj, QEvent *event)
     QMouseEvent *mouseEvent = static_cast<QMouseEvent*>(event);
     if (mouseEvent->buttons() & Qt::LeftButton && toolBarClicked)
     {
+#ifndef Q_OS_MAC
         if (this->isMaximized()) this->showNormal();
+#endif
         this->move(mouseEvent->globalPos() - dragPosition);
         event->accept();
     }

@@ -49,7 +49,6 @@ private slots:
     void removeCurrentIncludeItems();
 
     //UI
-    void maximize();
     /**
      * @brief Sets the UI in waiting mode, when long operations are going on
      * @param wait False to stop waiting mode

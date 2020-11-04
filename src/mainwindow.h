@@ -49,6 +49,10 @@ private slots:
     void removeCurrentIncludeItems();
 
     //UI
+
+#ifndef Q_OS_MAC
+    void maximize();
+#endif
     /**
      * @brief Sets the UI in waiting mode, when long operations are going on
      * @param wait False to stop waiting mode

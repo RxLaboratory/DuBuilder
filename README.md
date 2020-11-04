@@ -1,6 +1,6 @@
-# DuAEF_DuBuilder
+# DuBuilder
 
-A builder app for extendscript
+A builder app for Extendscript
 
 ## Usage
 

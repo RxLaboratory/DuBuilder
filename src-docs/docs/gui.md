@@ -23,4 +23,7 @@ Click on the *Build Settings* button and on *Build JSDoc* to automatically build
 *DuBuilder* will ask for the location of the *JSDoc* configuration `.json` file you want to use to build the documentation. See the [JSDoc](http://jsdoc.app) website for more information.
 
 !!! Note
-    DuBuilder does not provide [JSDoc](http://jsdoc.app), you have to install it separately using [*node.js*](https://nodejs.org) and *npm*.
+    Except on *Linux* using the `.deb` package, DuBuilder does not provide [JSDoc](http://jsdoc.app), you have to install it separately using [*node.js*](https://nodejs.org) and *npm*.
+    
+!!! Tip
+    When installed on *Linux* using the `.deb` package, jsdoc will be automatically installed along with *DuBuilder*

@@ -76,7 +76,9 @@ bool processArgs(int argc, char *argv[])
 
     if (help)
     {
+#ifdef Q_OS_WIN
         hideConsole = false;
+#endif
         qInfo() << "Usage: DuBuilder inputFile.jsx [options] [outputFile.jsx]";
         qInfo() << "";
         qInfo() << "Getting help";

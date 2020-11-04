@@ -1,6 +1,6 @@
 # DuBuilder - The Duduf JSX(inc) Builder
 
-*DuBuilder* is a simple tool used at *Rainbox Laboratory* to quickly build *Adobe Scripts* using the *ExtendScript* programing language.
+*DuBuilder* is a simple tool used at *Rainbox Laboratory* to quickly build *Adobe Scripts* using the *ExtendScript* programming language.
 
 ## What it does
 

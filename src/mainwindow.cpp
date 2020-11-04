@@ -20,10 +20,11 @@ MainWindow::MainWindow(int argc, char *argv[], QWidget *parent) :
 
     //build options
     QMenu * buildMenu = new QMenu(this);
-    buildMenu->addAction(actionIgnoreJSDoc);
+    //Comments options disabled for now as they're not working correctly, needs more testing
+    /*buildMenu->addAction(actionIgnoreJSDoc);
     buildMenu->addAction(actionIgnoreBlockComments);
     buildMenu->addAction(actionIgnoreLineComments);
-    buildMenu->addAction(actionKeepLicense);
+    buildMenu->addAction(actionKeepLicense);*/
     buildMenu->addAction(actionBuild_JSDoc);
     buildMenuButton = new QToolButton();
     buildMenuButton->setMenu(buildMenu);
@@ -31,6 +32,7 @@ MainWindow::MainWindow(int argc, char *argv[], QWidget *parent) :
     buildMenuButton->setText("Build Settings...");
     buildMenuButton->setIcon(QIcon(":/icons/file-settings"));
     buildMenuButton->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
+
     mainToolBar->insertWidget(actionBuild, buildMenuButton);
     buildMenuButton->setEnabled(false);
 
@@ -471,13 +473,13 @@ void MainWindow::jsdocBuilt(int exitCode, QProcess::ExitStatus exitStatus)
 
 void MainWindow::jsdocOutput()
 {
-    qDebug() << jsdocProcess->readAll();
+    qInfo().noquote() << jsdocProcess->readAll();
 }
 
 void MainWindow::jsdocError(QProcess::ProcessError error)
 {
     qDebug() << error;
-    qDebug() << jsdocProcess->errorString();
+    qWarning().noquote() << jsdocProcess->errorString();
     setWaiting(false);
 }
 

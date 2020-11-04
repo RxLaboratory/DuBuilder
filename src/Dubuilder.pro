@@ -55,7 +55,7 @@ win* {
     # Need to check the version of c++ used with distros providing Qt > 12
     equals(QT_MAJOR_VERSION, 5):lessThan(QT_MINOR_VERSION, 13):QMAKE_CXXFLAGS += "-fno-sized-deallocation"
 } else:macx {
-    # Just in case...
+    ICON = resources/icons/appIcon.icns
 }
 
 DISTFILES += \

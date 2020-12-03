@@ -12,31 +12,44 @@ TARGET = Dubuilder
 TEMPLATE = app
 
 SOURCES += main.cpp\
+    duqf-utils/language-utils.cpp \
+    duqf-utils/utils.cpp \
+    duqf-widgets/appearancesettingswidget.cpp \
+    duqf-widgets/settingswidget.cpp \
+    duqf-widgets/toolbarspacer.cpp \
+    includesettingswidget.cpp \
         mainwindow.cpp \
     scanner.cpp \
     script.cpp \
     scriptwidget.cpp \
-    settingswidget.cpp \
-    toolbarspacer.cpp \
     builder.cpp \
     frameless.cpp \
     rainboxui.cpp
 
 HEADERS  += mainwindow.h \
+    duqf-app/app-style.h \
+    duqf-app/app-utils.h \
+    duqf-app/app-version.h \
+    duqf-utils/language-utils.h \
+    duqf-utils/utils.h \
+    duqf-widgets/appearancesettingswidget.h \
+    duqf-widgets/settingswidget.h \
+    duqf-widgets/toolbarspacer.h \
+    includesettingswidget.h \
     scanner.h \
     script.h \
     scriptwidget.h \
-    settingswidget.h \
-    toolbarspacer.h \
     builder.h \
     frameless.h \
     rainboxui.h \
     version.h
 
 FORMS    += mainwindow.ui \
-    scriptwidget.ui \
-    settingswidget.ui \
-    toolbarspacer.ui
+    duqf-widgets/appearancesettingswidget.ui \
+    duqf-widgets/settingswidget.ui \
+    duqf-widgets/toolbarspacer.ui \
+    includesettingswidget.ui \
+    scriptwidget.ui
 
 RESOURCES += \
     resources.qrc

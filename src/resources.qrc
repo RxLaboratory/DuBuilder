@@ -1,27 +1,50 @@
 <RCC>
-    <qresource prefix="/"/>
+    <qresource prefix="/icons">
+        <file alias="app">resources/icons/dubuilder-appicon-medium.svg</file>
+        <file alias="maximize">resources/icons/maximize.svg</file>
+        <file alias="minimize">resources/icons/minimize.svg</file>
+        <file alias="quit">resources/icons/quit.svg</file>
+        <file alias="unmaximize">resources/icons/unmaximize.svg</file>
+        <file alias="settings">resources/icons/go-to-settings.svg</file>
+        <file alias="help">resources/icons/help.svg</file>
+        <file alias="bug-report">resources/icons/bug-report.svg</file>
+        <file alias="chat">resources/icons/chat.svg</file>
+        <file alias="documentation">resources/icons/documentation.svg</file>
+        <file alias="forum">resources/icons/forum.svg</file>
+        <file alias="qt">resources/icons/qt.svg</file>
+        <file alias="close">resources/icons/close.svg</file>
+        <file alias="color">resources/icons/color.svg</file>
+        <file alias="select">resources/icons/select.svg</file>
+        <file alias="property">resources/icons/property.svg</file>
+        <file alias="check">resources/icons/check.svg</file>
+        <file alias="move-down">resources/icons/move-down.svg</file>
+        <file alias="move-up">resources/icons/move-up.svg</file>
+        <file alias="build">resources/icons/build.svg</file>
+        <file alias="build-settings">resources/icons/build-settings.svg</file>
+        <file alias="load">resources/icons/load.svg</file>
+        <file alias="reload">resources/icons/reload.svg</file>
+    </qresource>
+    <qresource prefix="/images">
+        <file alias="splash">resources/images/splash.png</file>
+    </qresource>
     <qresource prefix="/styles">
         <file alias="default">resources/styles/style.css</file>
         <file alias="default-values">resources/styles/style-values.rui</file>
     </qresource>
-    <qresource prefix="/icons">
-        <file alias="open">resources/icons/icones-01.svg</file>
-        <file alias="export">resources/icons/icones-51.svg</file>
-        <file alias="scan">resources/icons/icones-52.svg</file>
-        <file alias="ok">resources/icons/icones-53.svg</file>
-        <file alias="warning">resources/icons/icones-54.svg</file>
-        <file alias="file-settings">resources/icons/file-settings.svg</file>
-        <file alias="cogs">resources/icons/cogs.svg</file>
-        <file alias="appicon">resources/icons/dubuilder-appicon-medium.svg</file>
-        <file alias="help">resources/icons/help.svg</file>
-        <file alias="close">resources/icons/window-close.svg</file>
-        <file alias="maximize">resources/icons/window-maximize.svg</file>
-        <file alias="minimize">resources/icons/window-minimize.svg</file>
-        <file alias="unmaximize">resources/icons/window-restore.svg</file>
-        <file alias="help_m">resources/icons/help_m.svg</file>
-        <file alias="close_m">resources/icons/close.svg</file>
-        <file alias="bugreport">resources/icons/bugreport.svg</file>
-        <file alias="chat">resources/icons/discord.svg</file>
-        <file alias="forum">resources/icons/forum.svg</file>
+    <qresource prefix="/fonts">
+        <file alias="Ubuntu-B">resources/fonts/Ubuntu-B.ttf</file>
+        <file alias="Ubuntu-BI">resources/fonts/Ubuntu-BI.ttf</file>
+        <file alias="Ubuntu-C">resources/fonts/Ubuntu-C.ttf</file>
+        <file alias="Ubuntu-L">resources/fonts/Ubuntu-L.ttf</file>
+        <file alias="Ubuntu-LI">resources/fonts/Ubuntu-LI.ttf</file>
+        <file alias="Ubuntu-M">resources/fonts/Ubuntu-M.ttf</file>
+        <file alias="Ubuntu-MI">resources/fonts/Ubuntu-MI.ttf</file>
+        <file alias="UbuntuMono-B">resources/fonts/UbuntuMono-B.ttf</file>
+        <file alias="UbuntuMono-BI">resources/fonts/UbuntuMono-BI.ttf</file>
+        <file alias="UbuntuMono-R">resources/fonts/UbuntuMono-R.ttf</file>
+        <file alias="UbuntuMono-RI">resources/fonts/UbuntuMono-RI.ttf</file>
+        <file alias="Ubuntu-R">resources/fonts/Ubuntu-R.ttf</file>
+        <file alias="Ubuntu-RI">resources/fonts/Ubuntu-RI.ttf</file>
+        <file alias="Ubuntu-Th">resources/fonts/Ubuntu-Th.ttf</file>
     </qresource>
 </RCC>

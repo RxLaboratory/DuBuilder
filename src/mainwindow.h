@@ -3,6 +3,11 @@
 
 #include "ui_mainwindow.h"
 
+#include "duqf-app/app-version.h"
+#include "duqf-app/app-style.h"
+#include "duqf-widgets/toolbarspacer.h"
+#include "duqf-widgets/settingswidget.h"
+
 #include <QFileDialog>
 #include <QFile>
 #include <QMouseEvent>
@@ -11,21 +16,20 @@
 #include <QToolButton>
 #include <QMessageBox>
 #include <QDesktopServices>
+#include <QLabel>
+#include <QtDebug>
 
-#include "version.h"
 #include "scanner.h"
 #include "builder.h"
 #include "scriptwidget.h"
-#include "toolbarspacer.h"
-#include "rainboxui.h"
-#include "settingswidget.h"
+#include "includesettingswidget.h"
 
 class MainWindow : public QMainWindow, private Ui::MainWindow
 {
     Q_OBJECT
 
 public:
-    explicit MainWindow(int argc, char *argv[], QWidget *parent = 0);
+    explicit MainWindow(int argc, char *argv[], QWidget *parent = nullptr);
 
 private slots:
     void scanned(Script *script);
@@ -35,29 +39,28 @@ private slots:
     void jsdocOutput();
     void jsdocError(QProcess::ProcessError error);
     //actions
-    void on_actionAbout_Qt_triggered();
-    void on_actionHelp_triggered();
-    void on_actionBug_Report_triggered();
-    void on_actionChat_triggered();
-    void on_actionForum_triggered();
     void on_actionOpen_Script_triggered();
     void on_actionRe_scan_script_triggered();
     void on_treeWidget_itemDoubleClicked(QTreeWidgetItem *item, int column);
     void on_actionBuild_triggered();
-    void on_actionSettings_triggered(bool checked);
     void on_actionBuild_JSDoc_triggered(bool checked);
     void removeCurrentIncludeItems();
 
     //UI
-
-#ifndef Q_OS_MAC
-    void maximize();
-#endif
     /**
      * @brief Sets the UI in waiting mode, when long operations are going on
      * @param wait False to stop waiting mode
      */
     void setWaiting(bool wait = true);
+
+    void duqf_maximize(bool max);
+    void duqf_maximize();
+    void duqf_bugReport();
+    void duqf_forum();
+    void duqf_chat();
+    void duqf_doc();
+    void duqf_settings(bool checked = true);
+    void duqf_closeSettings();
 
 private:
 
@@ -84,10 +87,6 @@ private:
     QTreeWidgetItem *scanningItem;
     QFileInfo jsdocConfFile;
     /**
-     * @brief settings Application settings
-     */
-    QSettings settings;
-    /**
      * @brief outputFile The path of the output file, if provided by command line args
      */
     QString outputFile;
@@ -103,26 +102,32 @@ private:
     QTreeWidgetItem *createIncludeItem(Script *script);
 
     //UI
-#ifndef Q_OS_MAC
-    QToolButton *maximizeButton;
-    QToolButton *minimizeButton;
-#endif
-    QToolButton *quitButton;
     QToolButton* buildMenuButton;
     QToolButton* helpMenuButton;
-    QLabel *titleLabel;
-    SettingsWidget *settingsWidget;
 
+    // ========= RxOT UI ==============
+    /**
+     * @brief initUi Called once to build the default RxOT UI
+     */
+    void duqf_initUi();
+    /**
+     * @brief duqf_setStyle Called once to set the UI Style after all ui have been created
+     */
+    void duqf_setStyle();
     /**
      * @brief Is the tool bar currently clicked or not
      */
-    bool toolBarClicked;
-
+    bool duqf_toolBarClicked;
     /**
      * @brief Drag position
      * Used for drag n drop feature
      */
-    QPoint dragPosition;
+    QPoint duqf_dragPosition;
+    QToolButton *duqf_maximizeButton;
+    QToolButton *duqf_settingsButton;
+    QSettings settings;
+    SettingsWidget *settingsWidget;
+    QLabel *title;
 
 protected:
     bool eventFilter(QObject *obj, QEvent *event);

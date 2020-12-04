@@ -23,6 +23,8 @@
         <file alias="build-settings">resources/icons/build-settings.svg</file>
         <file alias="load">resources/icons/load.svg</file>
         <file alias="reload">resources/icons/reload.svg</file>
+        <file alias="ok">resources/icons/ok.svg</file>
+        <file alias="warning">resources/icons/remove.svg</file>
     </qresource>
     <qresource prefix="/images">
         <file alias="splash">resources/images/splash.png</file>

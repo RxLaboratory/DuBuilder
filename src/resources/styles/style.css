@@ -387,6 +387,38 @@ QListWidget::item:selected {
     background-color: @color-dark-grey;
  }
 
+/* TABLES */
+
+QTreeWidget, QTableWidget {
+    background-color: @color-very-dark-grey;
+    alternate-background-color: @color-darker-grey;
+    color: @color-less-light-grey;
+    selection-color: @color-light-grey;
+    selection-background-color: @color-less-dark-grey;
+}
+
+QTreeWidget::item:hover, QTableWidget::item:hover {
+    background-color: @color-dark-grey;
+}
+
+QHeaderView {
+        color: @color-less-light-grey;
+}
+
+QHeaderView::section {
+    background-color: @color-dark-grey;
+    border:none;
+    padding:@padding-small;
+}
+
+QHeaderView::section:horizontal {
+        border-right: @margin solid @color-very-dark-grey;
+}
+
+QHeaderView::section:vertical {
+        border-bottom: @margin solid @color-very-dark-grey;
+}
+
 /* MENUS */
 
 QMenu {
@@ -412,6 +444,24 @@ QMenu::separator {
   background-color: @color-less-dark-grey;
   margin-top: @padding-small;
   margin-bottom: @padding-small;
+}
+
+QMenu::indicator:non-exclusive:unchecked { /* checkboxes */
+    background-color: @color-medium-grey;
+    border-radius: @padding-small;
+    border: @margin solid @color-light-blue;
+    image:none;
+    width: @very-small-button-size;
+    height: @very-small-button-size;
+}
+
+QMenu::indicator:non-exclusive:checked {
+    image:url(:/icons/check);
+    background-color: @color-light-green;
+    border-radius: @padding-small;
+    border: @margin solid @color-light-green;
+    width: @very-small-button-size;
+    height: @very-small-button-size;
 }
 
 /* TITLE BAR */

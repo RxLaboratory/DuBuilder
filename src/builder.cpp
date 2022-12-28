@@ -54,7 +54,7 @@ QString Builder::build(Script *s)
     {
         spacers += "-";
     }
-    builtScript += "// ==================== |-" + spacers + "-| ====================\n";
+    builtScript += "\n// ==================== |-" + spacers + "-| ====================\n";
     builtScript += "// ==================== | " + fileName + " | ====================\n";
     builtScript += "// ==================== |-" + spacers + "-| ====================\n\n";
 
@@ -134,6 +134,8 @@ QString Builder::build(Script *s)
     }
 
     scriptFile->close();
+
+    if (!builtScript.endsWith("\n")) builtScript += "\n";
 
     return builtScript;
 }

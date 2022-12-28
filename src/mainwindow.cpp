@@ -50,7 +50,6 @@ MainWindow::MainWindow(int argc, char *argv[], QWidget *parent) :
     QMenu *helpMenu = new QMenu(this);
     helpMenu->addAction(actionBug_Report);
     helpMenu->addAction(actionChat);
-    helpMenu->addAction(actionForum);
     helpMenu->addAction(actionHelp);
     helpMenu->addAction(actionAbout_Qt);
     helpMenuButton = new QToolButton(this);
@@ -234,12 +233,6 @@ void MainWindow::on_actionBug_Report_triggered()
 void MainWindow::on_actionChat_triggered()
 {
     QDesktopServices::openUrl(QUrl(URL_CHAT));
-}
-
-
-void MainWindow::on_actionForum_triggered()
-{
-    QDesktopServices::openUrl(QUrl(URL_FORUM));
 }
 
 

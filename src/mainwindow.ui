@@ -323,18 +323,6 @@
     <string>Report a bug / Request a feature</string>
    </property>
   </action>
-  <action name="actionForum">
-   <property name="icon">
-    <iconset resource="resources.qrc">
-     <normaloff>:/icons/forum</normaloff>:/icons/forum</iconset>
-   </property>
-   <property name="text">
-    <string>Forum</string>
-   </property>
-   <property name="toolTip">
-    <string>Forum</string>
-   </property>
-  </action>
   <action name="actionChat">
    <property name="icon">
     <iconset resource="resources.qrc">

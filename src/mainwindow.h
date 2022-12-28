@@ -39,7 +39,6 @@ private slots:
     void on_actionHelp_triggered();
     void on_actionBug_Report_triggered();
     void on_actionChat_triggered();
-    void on_actionForum_triggered();
     void on_actionOpen_Script_triggered();
     void on_actionRe_scan_script_triggered();
     void on_treeWidget_itemDoubleClicked(QTreeWidgetItem *item, int column);

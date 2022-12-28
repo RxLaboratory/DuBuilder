@@ -54,7 +54,7 @@ bool processArgs(int argc, char *argv[])
     for (int i = 1; i < argc; i++)
     {
         QString arg = argv[i];
-        if ( arg.toLower() == "-n" || arg.toLower() == "--nobanner" ) nobanner = true;
+        if ( arg.toLower() == "-n" || arg.toLower() == "--no-banner" ) nobanner = true;
         if (arg.toLower() == "-h" || arg.toLower() == "--help" ) help = true;
     }
 

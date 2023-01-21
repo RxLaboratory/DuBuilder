@@ -1,6 +1,7 @@
 #include "mainwindow.h"
 
 #include <QtDebug>
+#include <QInputDialog>
 
 MainWindow::MainWindow(int argc, char *argv[], QWidget *parent) :
     QMainWindow(parent)
@@ -123,6 +124,14 @@ MainWindow::MainWindow(int argc, char *argv[], QWidget *parent) :
             {
                 QString arg(argv[i]);
                 if ( (arg.toLower() == "-d" || arg.toLower() == "--jsdoc") && i < argc - 2) jsdocConfPath = argv[i+1];
+                if ( (arg.toLower()== "-v" || arg.toLower() == "--version") && i < argc - 2) version = argv[i+1];
+                if ( (arg.toLower()== "-r" || arg.toLower() == "--replace") && i < argc - 2) {
+                    QString v = argv[i+1];
+                    QStringList vList = v.split(":");
+                    if (vList.length() == 2) {
+                        replacements[vList[0]] = vList[1];
+                    }
+                }
             }
             //the last one is the output file
            outputFile = argv[argc-1];
@@ -205,6 +214,8 @@ bool MainWindow::buildFile(QString filePath)
 
     //build
     builder->setScript(currentScript);
+    builder->setVersion(version);
+    builder->setReplacements(replacements);
     builder->setIgnoreJSDoc(actionIgnoreJSDoc->isChecked());
     builder->setIgnoreLineComments(actionIgnoreLineComments->isChecked());
     builder->setIgnoreBlockComments(actionIgnoreBlockComments->isChecked());
@@ -234,7 +245,6 @@ void MainWindow::on_actionChat_triggered()
 {
     QDesktopServices::openUrl(QUrl(URL_CHAT));
 }
-
 
 void MainWindow::on_actionOpen_Script_triggered()
 {
@@ -309,6 +319,18 @@ void MainWindow::on_actionBuild_JSDoc_triggered(bool checked)
         return;
     }
     jsdocConfFile = QFileInfo(file);
+}
+
+void MainWindow::on_actionSet_Version_triggered()
+{
+    bool ok;
+    QString def = version;
+    if (def == "") def = "1.0.0";
+    QString text = QInputDialog::getText(this, tr("Set Script Version"),
+                                         tr("Version:"), QLineEdit::Normal,
+                                         def, &ok);
+    if (ok && !text.isEmpty())
+        version = text;
 }
 
 void MainWindow::removeCurrentIncludeItems()
@@ -657,4 +679,3 @@ bool MainWindow::eventFilter(QObject *obj, QEvent *event)
   // standard event processing
   return QObject::eventFilter(obj, event);
 }
-

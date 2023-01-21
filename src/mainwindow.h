@@ -58,6 +58,8 @@ private slots:
      */
     void setWaiting(bool wait = true);
 
+    void on_actionSet_Version_triggered();
+
 private:
 
     //WORKER THREADS
@@ -90,6 +92,15 @@ private:
      * @brief outputFile The path of the output file, if provided by command line args
      */
     QString outputFile;
+    /**
+     * @brief version The version to replace all occurences of {version} in the output file
+     */
+    QString version;
+    /**
+     * @brief replacements A list of tokens to replace in the output file
+     */
+    QHash<QString,QString> replacements;
+
 
     //METHODS
 

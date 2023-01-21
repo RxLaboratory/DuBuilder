@@ -169,6 +169,7 @@
    </attribute>
    <addaction name="actionOpen_Script"/>
    <addaction name="actionRe_scan_script"/>
+   <addaction name="actionSet_Version"/>
    <addaction name="actionBuild"/>
   </widget>
   <widget class="QStatusBar" name="mainStatusBar"/>
@@ -330,6 +331,11 @@
    </property>
    <property name="text">
     <string>Chat</string>
+   </property>
+  </action>
+  <action name="actionSet_Version">
+   <property name="text">
+    <string>Set Version</string>
    </property>
   </action>
  </widget>

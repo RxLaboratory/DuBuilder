@@ -16,10 +16,22 @@ void Builder::setScript(Script *s)
     script = s;
 }
 
+void Builder::setVersion(QString v)
+{
+    version = v;
+}
+
+void Builder::setReplacements(QHash<QString, QString> r)
+{
+    replacements = r;
+}
+
 void Builder::run()
 {
     _progressValue = -1;
     QString builtScript = build(script);
+
+    qDebug() << "=== REPLACEMENTS ===" << replacements;
 
     emit built(builtScript);
 }
@@ -128,6 +140,21 @@ QString Builder::build(Script *s)
         if (inDoc) continue;
         if (inBlockComment) continue;
         if (inLicense) continue;
+
+        // Replace version
+        if (version != "") {
+            line = line.replace("{version}", version);
+        }
+
+        // Other Replacements
+        QHashIterator<QString, QString> iReplace(replacements);
+        while (iReplace.hasNext()) {
+            iReplace.next();
+            if (line.contains(iReplace.key())) {
+                qDebug() << "=== REPLACEMENT === Replacing " << iReplace.key() << " by  " << iReplace.value();
+                line = line.replace(iReplace.key(), iReplace.value());
+            }
+        }
 
         //add content
         builtScript += line;

@@ -20,6 +20,8 @@ public:
      * @param s The script
      */
     void setScript(Script *s);
+    void setVersion(QString v);
+    void setReplacements(QHash<QString,QString> r);
     void setIgnoreJSDoc(bool ignoreJSDoc);
     void setIgnoreBlockComments(bool ignoreBlockComments);
     void setIgnoreLineComments(bool ignoreLineComments);
@@ -49,6 +51,14 @@ private:
      * @brief The current script which will be built when run() is called
      */
     Script *script;
+    /**
+     * @brief The version string which will replace all occurences of {version} in the script file.
+     */
+    QString version;
+    /**
+     * @brief replacements A list of tokens to replace in the script file.
+     */
+    QHash<QString, QString> replacements;
     /**
      * @brief Recursive method which builds the scripts and all includes
      * @param s The script to build
